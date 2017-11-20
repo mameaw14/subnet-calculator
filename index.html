@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+<body>
+    <div ng-app="subnetcalApp" ng-controller="subnetcalCtrl">
+    	<form name="form">
+	        IP address:
+	        <input type="text" name="ipAddressInput" ng-model="ipAddress" ng-change="ipChangeFn(form.ipAddressInput.$valid)" ng-ip-address>
+	        <br> Subnet Mask
+	        <input type="text" ng-model="subnetMask">
+	    </form>
+        <br>
+        <br> 
+        {{ipBinary}}
+
+    </div>
+    <script src="js/ngIpAddress.min.js"></script>
+    <script src="js/ngIpAddress.vanilla.min.js"></script>
+    <script>
+    var app = angular.module('subnetcalApp', ['ng-ip-address']);
+    app.controller('subnetcalCtrl', function($scope) {
+        $scope.ipAddress = "192.168.0.1";
+        $scope.subnetMask = "/24";
+        $scope.ipValid = true;
+        $scope.ipBinary = "";
+	    $scope.ipChangeFn = function(valid) {
+	    	if(valid) {
+	        	var fields = $scope.ipAddress.split('.');
+				var f1 = ("00000000" + parseInt(fields[0]).toString(2)).slice(-8);
+				var f2 = ("00000000" + parseInt(fields[1]).toString(2)).slice(-8);
+				var f3 = ("00000000" + parseInt(fields[2]).toString(2)).slice(-8);
+				var f4 = ("00000000" + parseInt(fields[3]).toString(2)).slice(-8);
+				$scope.ipBinary = f1 + f2 + f3 + f4;
+	    	}
+	    }
+    });
+    </script>
+</body>
+
+</html>
