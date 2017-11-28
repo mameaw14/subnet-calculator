@@ -6,7 +6,8 @@ import {
     broadcastAddress,
     numberOfHosts,
     numberOfUsableHosts,
-    wildCard
+    wildCard,
+    ipBit
 } from './helper';
 
 describe('convertToSubnet test', () => {
@@ -51,6 +52,12 @@ describe('numberOfHosts test', () => {
 describe('numberOfUsableHosts test', () => {
     it('should return number of usable hosts', () => {
         expect(numberOfUsableHosts(9)).to.equal(8388606);
+    });
+})
+
+describe('ipBit test', () => {
+    it('should return ip bit integer', () => {
+        expect(ipBit('255.255.255.255')).to.equal(4294967295);
     });
 })
 

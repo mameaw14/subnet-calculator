@@ -1,12 +1,22 @@
 export const convertToSubnet = (mask) => {
-    const subnet = [0, 0, 0, 0].map(() => {
-        const sub = '00000000'.split('').map(() => {
-            mask -= 1;
-            return mask >=0 ? '1' : '0';
-        });
-        return parseInt(sub.join(''), 2);
-    });
-    return subnet.join('.');
+    let subnet = '1'.repeat(mask) + '0'.repeat(32-mask);
+    subnet = parseInt(subnet.slice(0, 8), 2) + '.' 
+        + parseInt(subnet.slice(8, 16), 2) + '.' 
+        + parseInt(subnet.slice(16, 24), 2) + '.' 
+        + parseInt(subnet.slice(24, 32), 2);
+    return subnet;
+}
+
+export const subnetMaskBit = (mask) => {
+    return parseInt('1'.repeat(mask) + '0'.repeat(32 - mask), 2);
+}
+
+export const ipBit = (ip) => {
+    let number = 0;
+    let a = ip.split('.').map((val, index) => {
+        number += (val * (1 << (8 * (3 - index))));
+    })
+    return number;
 }
 
 export const toBinary = (ip) => {
