@@ -14,7 +14,7 @@ class App extends Component {
     result: []
   };
 
-  handleChange = event => {
+  handleChange = event => { 
     let ip = event.target.value;
     this.setState({
       ip: ip,
