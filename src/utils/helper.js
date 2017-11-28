@@ -1,3 +1,10 @@
+export const convertToIPFormat = (number) => {
+    return (number >>> 24) + '.'
+        + ((number >>> 16) & 0xff) + '.'
+        + ((number >>> 8) & 0xff) + '.'
+        + (number & 0xff);
+}
+
 export const convertToSubnet = (mask) => {
     let subnet = '1'.repeat(mask) + '0'.repeat(32-mask);
     subnet = parseInt(subnet.slice(0, 8), 2) + '.' 
@@ -28,27 +35,15 @@ export const toBinary = (ip) => {
 }
 
 export const networkAddress = (ip, subnet) => {
-    ip = toBinary(ip);
-    const a = ip.split('.').map((element) => {
-        const b = element.split('').map((digit) => {
-            subnet -= 1;
-            return subnet >= 0? digit : '0';
-        });
-        return parseInt(b.join(''), 2);
-    });
-    return a.join('.');
+    ip = ipBit(ip);
+    subnet = subnetMaskBit(subnet);
+    return convertToIPFormat(subnet & ip);
 }
 
 export const broadcastAddress = (ip, subnet) => {
-    ip = toBinary(ip);
-    const a = ip.split('.').map((element) => {
-        const b = element.split('').map((digit) => {
-            subnet -= 1;
-            return subnet >= 0? digit : '1';
-        });
-        return parseInt(b.join(''), 2);
-    });
-    return a.join('.');
+    ip = ipBit(ip);
+    subnet = subnetMaskBit(subnet);
+    return convertToIPFormat(subnet & ip | ~subnet);
 }
 
 export const numberOfHosts = (subnet) => {
@@ -60,12 +55,5 @@ export const numberOfUsableHosts = (subnet) => {
 }
 
 export const wildCard = (mask) => {
-    const subnet = [0, 0, 0, 0].map(() => {
-        const sub = '00000000'.split('').map(() => {
-            mask -= 1;
-            return mask >= 0 ? '0' : '1';
-        });
-        return parseInt(sub.join(''), 2);
-    });
-    return subnet.join('.');
+    return convertToIPFormat(~subnetMaskBit(mask));
 }

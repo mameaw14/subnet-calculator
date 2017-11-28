@@ -7,7 +7,8 @@ import {
     numberOfHosts,
     numberOfUsableHosts,
     wildCard,
-    ipBit
+    ipBit,
+    convertToIPFormat
 } from './helper';
 
 describe('convertToSubnet test', () => {
@@ -60,6 +61,14 @@ describe('ipBit test', () => {
         expect(ipBit('255.255.255.255')).to.equal(4294967295);
     });
 })
+
+describe('convertToIPFormat test', () => {
+    it('should return ip format', () => {
+        expect(convertToIPFormat(4294967295)).to.equal('255.255.255.255');
+    });
+})
+
+
 
 //().toString(2)
 //parseInt("101",2)
