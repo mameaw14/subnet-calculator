@@ -10,7 +10,8 @@ import {
     ipBit,
     convertToIPFormat,
     hostMin,
-    hostMax
+    hostMax,
+    ipValidator
 } from './helper';
 
 describe('convertToSubnet test', () => {
@@ -83,6 +84,12 @@ describe('hostMin test', () => {
         expect(hostMin('255.255.255.255', 8)).to.equal('255.0.0.1');
         expect(hostMin('234.255.255.255', 8)).to.equal('234.0.0.1');
     });
+})
+
+describe('ip validator test', () => {
+    it('should return true/false', () => {
+        expect(ipValidator('192.168.0.1')).to.equal(true);
+    })
 })
 
 

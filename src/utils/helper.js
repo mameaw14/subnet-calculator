@@ -14,13 +14,21 @@ export const convertToSubnet = (mask) => {
     return subnet;
 }
 
+export const binarySubnetMask = (mask) => {
+    let subnet = '1'.repeat(mask) + '0'.repeat(32 - mask);
+    subnet = subnet.slice(0, 8) + '.'
+        + subnet.slice(8, 16) + '.'
+        + subnet.slice(16, 24) + '.'
+        + subnet.slice(24, 32);
+    return subnet
+}
 export const subnetMaskBit = (mask) => {
     return parseInt('1'.repeat(mask) + '0'.repeat(32 - mask), 2);
 }
 
 export const ipBit = (ip) => {
     let number = 0;
-    let a = ip.split('.').map((val, index) => {
+    ip.split('.').map((val, index) => {
         number += (val * (1 << (8 * (3 - index))));
     })
     return number;
@@ -69,3 +77,24 @@ export const hostMax = (ip, subnet) => {
     subnet = subnetMaskBit(subnet);
     return convertToIPFormat((subnet & ip | ~subnet) - 1);
 }
+
+export const getResult = (ip, subnet) => [
+    { name: 'IP Address', value: ip },
+    { name: 'Network Address', value: networkAddress(ip, subnet) },
+    { name: 'Usable Host IP Range', value: hostMin(ip, subnet) + ' - ' + hostMax(ip, subnet) },
+    { name: 'Broadcast Address', value: broadcastAddress(ip, subnet) },
+    { name: 'Total Number of Hosts', value: numberOfHosts(subnet) },
+    { name: 'Number of Usable Hosts', value: numberOfUsableHosts(subnet) },
+    { name: 'Subnet Mask', value: convertToSubnet(subnet) },
+    { name: 'Wildcard Mask', value: wildCard(subnet) },
+    { name: 'Binary Subnet Mask', value: binarySubnetMask(subnet) },
+    // { name: 'IP Class', value: getIPClass(subnet) },
+    { name: 'CIDR Notation', value: '/' + subnet },
+    // { name: 'IP Type', value: isPrivate(ip) ? 'Private' : 'Public' },
+    { name: 'Short', value: ip + '/' + subnet },
+    { name: 'Binary ID', value: ipBit(ip).toString(2) },
+    { name: 'Integer ID', value: ipBit(ip) },
+    { name: 'Hex ID', value: ipBit(ip).toString(16) }
+].map(obj => ({ ...obj, key: obj.name }));
+
+export const ipValidator = ip => /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)
