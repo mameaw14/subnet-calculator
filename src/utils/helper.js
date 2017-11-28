@@ -47,13 +47,25 @@ export const broadcastAddress = (ip, subnet) => {
 }
 
 export const numberOfHosts = (subnet) => {
-    return Math.pow(2, 32-subnet);
+    return Math.pow(2, 32 - subnet);
 }
 
 export const numberOfUsableHosts = (subnet) => {
-    return Math.pow(2, 32-subnet) - 2;
+    return Math.pow(2, 32 - subnet) - 2;
 }
 
 export const wildCard = (mask) => {
     return convertToIPFormat(~subnetMaskBit(mask));
+}
+
+export const hostMin = (ip, subnet) => {
+    ip = ipBit(ip);
+    subnet = subnetMaskBit(subnet);
+    return convertToIPFormat((subnet & ip) + 1);
+}
+
+export const hostMax = (ip, subnet) => {
+    ip = ipBit(ip);
+    subnet = subnetMaskBit(subnet);
+    return convertToIPFormat((subnet & ip | ~subnet) - 1);
 }

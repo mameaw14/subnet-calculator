@@ -8,7 +8,9 @@ import {
     numberOfUsableHosts,
     wildCard,
     ipBit,
-    convertToIPFormat
+    convertToIPFormat,
+    hostMin,
+    hostMax
 } from './helper';
 
 describe('convertToSubnet test', () => {
@@ -68,6 +70,20 @@ describe('convertToIPFormat test', () => {
     });
 })
 
+describe('hostMax test', () => {
+    it('should return hostmin address', () => {
+        expect(hostMax('108.104.24.1', 8)).to.equal('108.255.255.254');
+        expect(hostMax('108.104.24.1', 9)).to.equal('108.127.255.254');
+    });
+})
+
+describe('hostMin test', () => {
+    it('should return hostmin address', () => {
+        expect(hostMin('255.255.255.255', 1)).to.equal('128.0.0.1');
+        expect(hostMin('255.255.255.255', 8)).to.equal('255.0.0.1');
+        expect(hostMin('234.255.255.255', 8)).to.equal('234.0.0.1');
+    });
+})
 
 
 //().toString(2)
