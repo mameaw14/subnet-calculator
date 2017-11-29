@@ -59,6 +59,7 @@ export const numberOfHosts = (subnet) => {
 }
 
 export const numberOfUsableHosts = (subnet) => {
+    if (subnet == 32) return 0;
     return Math.pow(2, 32 - subnet) - 2;
 }
 

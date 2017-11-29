@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { 
   ipValidator,
+  subnetValidator,
   getResult
 } from './utils/helper';
 
@@ -14,27 +15,29 @@ class App extends Component {
     result: []
   };
 
-  handleChange = event => { 
+  onIpChange = event => { 
     let ip = event.target.value;
-    this.setState({
-      ip: ip,
-    });
-
-    if (ipValidator(ip)) {
-      this.setState({
-        validator: ip,
-        result: getResult(ip, this.state.subnet)
-      });
-    } else {
-      this.setState({
-        validator: 'invalid ip'
-      });
-    }
+    this.setState({ ip: ip });
+    this.updateResult(ip, this.state.subnet);
   }
 
   onSubnetChange = event => {
     let subnet = event.target.value;
     this.setState({ subnet: subnet });
+    this.updateResult(this.state.ip, subnet);
+  }
+
+  updateResult = (ip, subnet) => {
+    if (ipValidator(ip) && subnetValidator(subnet)) {
+      this.setState({
+        validator: ip,
+        result: getResult(ip, subnet)
+      });
+    } else {
+      this.setState({
+        validator: 'Invalid ip'
+      });
+    }
   }
   
   render() {
@@ -51,7 +54,7 @@ class App extends Component {
         <form>
           <div className="formgroup">
           <label> IP address <br/>
-            <input className="input--text" type="text" name="ip" value={ip} onChange={this.handleChange} />
+            <input className="input--text" type="text" name="ip" value={ip} onChange={this.onIpChange} />
           </label>
           </div>
           <div className="formgroup">
