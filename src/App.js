@@ -44,18 +44,26 @@ class App extends Component {
       subnet,
       result
     } = this.state;
+
     return (
       <div className="App">
+        <h1>Subnet Calculator</h1>
         <form>
-          <label> IP address
-            <input type="text" name="ip" value={ip} onChange={this.handleChange} />
+          <div className="formgroup">
+          <label> IP address <br/>
+            <input className="input--text" type="text" name="ip" value={ip} onChange={this.handleChange} />
           </label>
-          <label> Subnet mask
-            <input type="text" name="subnetmask" value={subnet} onChange={this.onSubnetChange}/>
+          </div>
+          <div className="formgroup">
+          <label> Subnet mask <br/>
+            <input className="input--text" type="text" name="subnetmask" value={subnet} onChange={this.onSubnetChange}/>
           </label>
+          </div>
         </form>
         <div>{validator}</div>
-        <div>{result.map(val => <div> {val.key} : {val.value}</div>)}</div>
+        <div>{result.map(val => 
+          <div> {val.key} : {val.value}</div>
+        )}</div>
       </div>
     );
   }

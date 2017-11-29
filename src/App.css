@@ -1,4 +1,33 @@
 .App {
   text-align: center;
+  margin-top: 50px;
 }
 
+.input--text {
+  background-color: #282828;
+  padding: 32px 0;
+  font-size: 48px;
+  font-weight: 700;
+  caret-color: #1db954;
+  color: #fff;
+  border: none;
+  text-align: center;
+}
+
+.input--text:focus {
+  outline:0;
+  margin-top: 5px;
+}
+
+label:focus-within {
+  color: #fff;
+}
+
+label {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.formgroup {
+  margin-bottom: 25px;
+}

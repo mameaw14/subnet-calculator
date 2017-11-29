@@ -11,7 +11,8 @@ import {
     convertToIPFormat,
     hostMin,
     hostMax,
-    ipValidator
+    ipValidator,
+    subnetValidator
 } from './helper';
 
 describe('convertToSubnet test', () => {
@@ -92,7 +93,14 @@ describe('ip validator test', () => {
     })
 })
 
-
+describe('subnet validator test', () => {
+    it('should return true/false', () => {
+        expect(subnetValidator(32)).to.equal(true);
+        expect(subnetValidator(132)).to.equal(false);
+        expect(subnetValidator(0)).to.equal(false);
+        expect(subnetValidator(1)).to.equal(true);
+    })
+})
 //().toString(2)
 //parseInt("101",2)
 //a.map((num, index) => {

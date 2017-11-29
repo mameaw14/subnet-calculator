@@ -98,3 +98,4 @@ export const getResult = (ip, subnet) => [
 ].map(obj => ({ ...obj, key: obj.name }));
 
 export const ipValidator = ip => /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)
+export const subnetValidator = subnet => subnet >= 1 && subnet <= 32;
