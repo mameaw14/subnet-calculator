@@ -12,7 +12,8 @@ import {
     hostMin,
     hostMax,
     ipValidator,
-    subnetValidator
+    subnetValidator,
+    subnetToCIDR
 } from './helper';
 
 describe('convertToSubnet test', () => {
@@ -95,10 +96,17 @@ describe('ip validator test', () => {
 
 describe('subnet validator test', () => {
     it('should return true/false', () => {
-        expect(subnetValidator(32)).to.equal(true);
-        expect(subnetValidator(132)).to.equal(false);
-        expect(subnetValidator(0)).to.equal(false);
-        expect(subnetValidator(1)).to.equal(true);
+        expect(subnetValidator('255.255.255.255')).to.equal(true);
+        expect(subnetValidator('192.168.30.1')).to.equal(false);
+        expect(subnetValidator('255.128.0.1')).to.equal(false);
+        expect(subnetValidator('128.0.0.0')).to.equal(true);
+    })
+})
+
+describe('subnet to cidr test', () => {
+    it('should return 0-32', () => {
+        expect(subnetToCIDR('255.255.255.255')).to.equal(32);
+        expect(subnetToCIDR('0.0.0.0')).to.equal(0);
     })
 })
 //().toString(2)

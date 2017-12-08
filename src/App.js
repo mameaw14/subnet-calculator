@@ -3,14 +3,18 @@ import './App.css';
 import { 
   ipValidator,
   subnetValidator,
+  randomIP,
+  randomSubnet,
   getResult
 } from './utils/helper';
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
 
 
-class App extends Component {  
+class App extends Component {
   state = {
-    ip: '192.168.0.1', 
-    subnet: 1,
+    ip: '', 
+    subnet: '',
     validator: '',
     result: []
   };
@@ -32,14 +36,20 @@ class App extends Component {
       this.setState({
         validator: ip,
         result: getResult(ip, subnet)
-      });
+      }
+    );
     } else {
       this.setState({
-        validator: 'Invalid ip'
+        validator: 'Invalid Ip address or Subnet mask'
       });
     }
   }
-  
+  constructor() {
+    super();
+    this.state.ip = randomIP();
+    this.state.subnet = randomSubnet();
+    this.state.result = getResult(this.state.ip, this.state.subnet)
+  }
   render() {
     const {
       ip,
@@ -47,7 +57,7 @@ class App extends Component {
       subnet,
       result
     } = this.state;
-
+    
     return (
       <div className="App">
         <h1>Subnet Calculator</h1>
@@ -64,9 +74,21 @@ class App extends Component {
           </div>
         </form>
         <div>{validator}</div>
-        <div>{result.map(val => 
-          <div> {val.key} : {val.value}</div>
-        )}</div>
+        <ReactTable
+          showPagination={false}
+          data={result}
+          className='-striped -highlight table'
+          sortable={false}
+          defaultPageSize={16}
+          columns={[{
+            Header: 'Attribute',
+            accessor: 'name',
+          }, {
+            Header: 'Value',
+            accessor: 'value',
+          }
+        ]}
+        />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   margin-top: 50px;
+  margin-bottom: 100px;
 }
 
 .input--text {
@@ -33,4 +34,13 @@ label {
 
 .formgroup {
   margin-bottom: 25px;
+}
+
+.table {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.rt-tr > .rt-td:first-child {
+  font-weight: bold;
 }
